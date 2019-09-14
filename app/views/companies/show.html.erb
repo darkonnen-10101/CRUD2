@@ -1,0 +1,69 @@
+<p id="notice"><%= notice %></p>
+
+<p class="text-center">
+  <strong>Empresa:</strong>
+  <%= @company.name %>
+</p>
+
+<div class="container">
+
+  <%= form_with(model: [ @company, @employee ]) do |form| %>
+  <div class="row">
+    <div class="col-6">
+      <div class="form-group">
+        <%= form.label :first_name, "Nombre" %>
+        <%= form.text_field :first_name, :class => 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :last_name, "Apellido" %>
+        <%= form.text_field :last_name, :class => 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :email, "Correo Electronico" %>
+        <%= form.text_field :email, :class => 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :area_id, "Area" %>
+        <%= form.select :area_id, Area.pluck(:name, :id), :class => "form-control" %>
+      </div>
+      <%= form.submit "Guardar", :class => 'btn btn-info' %>
+
+    </div>
+
+  </div>
+  <% end %>
+
+</div>
+<br/><br/>
+<div class="text-center">
+  <%= link_to 'Editar', edit_company_path(@company), :class => 'btn btn-success'  %>
+  <%= link_to 'Volver', companies_path, :class => 'btn btn-info'  %>
+</div>
+<br/><br/>
+
+<div class="container table-bordered text-center">
+  <table class="table">
+    <thead class=" text-dark">
+      <tr>
+        <td scope="col"><strong>Nombre</strong></td>
+        <td scope="col"><strong>Apellido</strong></td>
+        <td scope="col"><strong>Email</strong></td>
+        <td scope="col"><strong>Area</strong></td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @company.employees.each do |e| %>
+      <tr>
+        <td><%= e.first_name %></td>
+        <td><%= e.last_name %></td>
+        <td><%= e.email %></td>
+        <td><%= e.area.name %></td>
+        <td><%= link_to "Eliminar", company_employee_path(@company, e), method: :delete, data: {:confirm => "Se eliminará el registro"}, :class => 'btn btn-danger' %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
